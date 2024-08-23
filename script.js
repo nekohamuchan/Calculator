@@ -101,7 +101,7 @@ inputs.forEach(input => {
         if (!Number.isNaN(parseFloat(clicked)) || clicked === '.') {
             getInput(clicked);
         } else {
-            switch (typed) {
+            switch (clicked) {
                 case 'C':
                     clearAll();
                     break;
@@ -109,6 +109,11 @@ inputs.forEach(input => {
                     delInputs();
                     break;
                 case '＝':
+                case '＋':
+                case '－':
+                case '×':
+                case '÷':
+                
                     break;
             };
         };
@@ -117,9 +122,27 @@ inputs.forEach(input => {
     });
 });
 
-window.addEventListener('keypress', e => {
+window.addEventListener('keydown', e => {
     console.log(e.key);
     if (!Number.isNaN(parseFloat(e.key)) || e.key === '.') {
         getInput(e.key);
+    } else {
+        switch(e.key) {
+            case 'c':
+            case 'C':
+                clearAll();
+                break;
+            case 'Backspace':
+                delInputs();
+                break;
+            case '=':
+            case '+':
+            case '-':
+            case 'x':
+            case 'X':
+            case '/':
+
+                break; 
+        };
     };
 });
