@@ -1,0 +1,104 @@
+:root {
+    --button-length: 65px;
+    --input-gap: calc((100% - var(--button-length) * 4) * 1/3);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: cadetblue;
+}
+
+.calculator {
+    margin: auto;
+    margin-top: 12vh;
+    width: 380px;
+    height: 550px;
+    border-radius: 20px;
+    background-color: rgb(237, 237, 237);
+    border: 8px outset rgb(212, 212, 212);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.5);
+}
+
+.calculator > * {
+    width: 85%;
+}
+
+.screen {
+    margin-bottom: 25px;
+    height: 15%;
+    background-color: rgb(79, 123, 124);
+    border: 5px inset rgb(121, 121, 121);
+    padding: 0 10px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    font-size: 40px;
+    font-family: 'Digital Numbers', sans-serif;
+    overflow: hidden;
+    box-shadow: inset 0 0 5px black;
+    text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+.inputs {
+    height: 70%;
+    display: flex;
+    gap: var(--input-gap);
+    border: 3px inset rgb(203, 203, 203);
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.numbers {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: space-between;
+}
+
+.numbers > .input:nth-child(-n + 3) {
+    background-color: rgb(181, 181, 181);
+    border: 3px outset rgb(121, 121, 121);
+    color: white;
+}
+
+.numbers > .input:nth-last-child(2) {
+    width: calc(var(--button-length) * 2.25);
+}
+
+.operators {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.operators > .input {
+    background-color: rgb(130, 182, 184);
+    border: 3px outset cadetblue;
+}
+
+.input {
+    flex-shrink: 0;
+    width: var(--button-length);
+    height: var(--button-length);
+    border-radius: 50px;
+    background-color: white;
+    border: 3px outset rgb(201, 201, 201);
+    font-size: 25px;
+    font-family: "Inter", sans-serif;
+    font-weight: lighter;
+}
+
+.input:hover {
+    cursor: pointer;
+}
+
+.input:active {
+    scale: 0.95;
+}
