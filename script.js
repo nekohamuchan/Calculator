@@ -61,6 +61,7 @@ const inputScreen = document.querySelector('.screen');
 const inputs = document.querySelectorAll('.input');
 let result = 0;
 let currNum = 0;
+const maxInputLength = 9;
 
 const clearInputs = () => {
     currNum = 0;
@@ -87,11 +88,10 @@ inputs.forEach(input => {
         const typed = e.target.textContent;
 
         if (!Number.isNaN(parseFloat(typed)) || typed === '.') {
-            if (currNum === '' && typed === '.') {
-                return;
-            };
-            if (currNum === 0) {
+            if (currNum === 0 && typed !== '.') {
                 currNum = '';
+            } else if (currNum[currNum.length - 1] === '.' && typed === '.') {
+                return;
             };
             currNum += typed;
             inputScreen.textContent = currNum;
