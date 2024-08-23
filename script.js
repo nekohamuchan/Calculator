@@ -92,6 +92,7 @@ const getInput = (input) => {
     };
     currNum += input;
     inputScreen.textContent = currNum;
+    console.log(currNum);
 };
 
 inputs.forEach(input => {
@@ -116,24 +117,27 @@ inputs.forEach(input => {
                 
                     break;
             };
-        };
-
-        console.log(currNum);
+        };     
     });
 });
+
+const bindInput = (input) => {
+    Array.from(inputs).find(node => node.textContent === input).click();
+    Array.from(inputs).find(node => node.textContent === input).classList.add('active');
+};
 
 window.addEventListener('keydown', e => {
     console.log(e.key);
     if (!Number.isNaN(parseFloat(e.key)) || e.key === '.') {
-        getInput(e.key);
+        bindInput(e.key);
     } else {
         switch(e.key) {
             case 'c':
             case 'C':
-                clearAll();
+                bindInput('C');
                 break;
             case 'Backspace':
-                delInputs();
+                bindInput('Del');
                 break;
             case '=':
             case '+':
@@ -145,4 +149,8 @@ window.addEventListener('keydown', e => {
                 break; 
         };
     };
+});
+
+window.addEventListener('keyup', e => {
+    inputs.forEach(input => input.classList.remove('active'));
 });

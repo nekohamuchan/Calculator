@@ -110,6 +110,7 @@ body {
     cursor: pointer;
 }
 
-.input:active {
+.input:active,
+.input.active {
     scale: 0.95;
 }
