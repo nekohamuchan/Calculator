@@ -90,7 +90,8 @@ inputs.forEach(input => {
         if (!Number.isNaN(parseFloat(typed)) || typed === '.') {
             if (currNum === 0 && typed !== '.') {
                 currNum = '';
-            } else if (currNum[currNum.length - 1] === '.' && typed === '.') {
+            } else if ((currNum[currNum.length - 1] === '.' && typed === '.') ||
+                        currNum.length >= maxInputLength) {
                 return;
             };
             currNum += typed;
