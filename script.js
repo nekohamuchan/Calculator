@@ -63,6 +63,14 @@ let stored = 0;
 let currNum = 0;
 const maxInputLength = 9;
 
+const checkMaxLength = () => {
+    if (inputScreen.textContent.length > maxInputLength) {
+        inputScreen.textContent = 'ERROR';
+        currNum = 0;
+        stored = 0;
+    };
+};
+
 const clearInputs = () => {
     currNum = 0;
     inputScreen.textContent = currNum;
@@ -75,7 +83,7 @@ const clearAll = () => {
 
 const delInputs = () => {
     const inputLength = inputScreen.textContent.length;
-    if (inputLength == 0 || inputLength === 1) {
+    if (inputLength === 0 || inputLength === 1) {
         currNum = 0;
         inputScreen.textContent = currNum;
         return;
@@ -105,6 +113,19 @@ const add = () => {
         inputScreen.textContent = stored;
     };
     currOp = 'add';
+    checkMaxLength();
+};
+
+const subtract = () => {
+
+};
+
+const multiply = () => {
+
+};
+
+const divide = () => {
+
 };
 
 const equals = () => {
@@ -119,6 +140,7 @@ const equals = () => {
     inputScreen.textContent = stored;
     currNum = stored;
     stored = 0;
+    checkMaxLength();
 };
 
 inputs.forEach(input => {
@@ -142,9 +164,13 @@ inputs.forEach(input => {
                     add();
                     break;
                 case '－':
+                    subtract();
+                    break;
                 case '×':
+                    multiply();
+                    break;
                 case '÷':
-                
+                    divide();
                     break;
             };
         };     
