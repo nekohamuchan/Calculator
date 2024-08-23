@@ -143,12 +143,42 @@ const equals = () => {
     checkMaxLength();
 };
 
+const log = document.querySelector('.log');
+let inputLog = [''];
+let currIndex = 0;
+
+const makeLog = () => {
+    const li = document.createElement('li');
+    log.append(li);
+};
+
+const updateLog = (input) => {
+    if (!power) {
+        return;
+    };
+
+    if (log.innerHTML === '') {
+        makeLog();
+    };
+
+    switch (input) {
+        case '⏻':
+            log.innerHTML = '';
+            return;
+        default:
+            break
+    };
+    
+    log.lastChild.textContent += input;
+};
+
 inputs.forEach(input => {
     input.addEventListener('click', e => {
         const clicked = e.target.textContent;
 
         if (!Number.isNaN(parseFloat(clicked)) || clicked === '.') {
             getInput(clicked);
+            updateLog(clicked);
         } else {
             switch (clicked) {
                 case 'C':
@@ -186,8 +216,9 @@ inputs.forEach(input => {
                     }
                     break;
             };
+            updateLog(clicked);
         }; 
-        console.log('currNum: ' + currNum, 'stored: ' + stored);    
+        console.log('currNum: ' + currNum, 'stored: ' + stored);  
     });
 });
 

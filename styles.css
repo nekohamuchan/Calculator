@@ -138,8 +138,19 @@ body {
     position: absolute;
     z-index: -1;
     top: 0;
-    width: 50%;
+    width: calc(100% * 1/2 - 190px);
     height: 100%;
+    padding: 20px 10px;
     border: 1px solid white;
     color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    font-size: 25px;
+    font-family: "Inter", sans-serif;
+    font-weight: lighter;
+}
+
+li {
+    
 }
