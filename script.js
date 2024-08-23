@@ -83,19 +83,23 @@ const delInputs = () => {
     inputScreen.textContent = currNum;
 };
 
+const getInput = (input) => {
+    if (currNum === 0 && input !== '.') {
+        currNum = '';
+    } else if ((currNum[currNum.length - 1] === '.' && input === '.') ||
+                currNum.length >= maxInputLength) {
+        return;
+    };
+    currNum += input;
+    inputScreen.textContent = currNum;
+};
+
 inputs.forEach(input => {
     input.addEventListener('click', e => {
-        const typed = e.target.textContent;
+        const clicked = e.target.textContent;
 
-        if (!Number.isNaN(parseFloat(typed)) || typed === '.') {
-            if (currNum === 0 && typed !== '.') {
-                currNum = '';
-            } else if ((currNum[currNum.length - 1] === '.' && typed === '.') ||
-                        currNum.length >= maxInputLength) {
-                return;
-            };
-            currNum += typed;
-            inputScreen.textContent = currNum;
+        if (!Number.isNaN(parseFloat(clicked)) || clicked === '.') {
+            getInput(clicked);
         } else {
             switch (typed) {
                 case 'C':
@@ -113,3 +117,9 @@ inputs.forEach(input => {
     });
 });
 
+window.addEventListener('keypress', e => {
+    console.log(e.key);
+    if (!Number.isNaN(parseFloat(e.key)) || e.key === '.') {
+        getInput(e.key);
+    };
+});
