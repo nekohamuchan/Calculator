@@ -57,6 +57,9 @@ for (let i = 1; i <= 5; i++) {
     operators.append(opInput);
 };
 
+const buttonSFX = new Audio('./sounds/switch-light.mp3');
+const digitSFX = new Audio('./sounds/buttons_calculator.mp3');
+
 const inputScreen = document.querySelector('.input-area'); 
 const inputs = document.querySelectorAll('.input');
 let stored = 0;
@@ -179,6 +182,10 @@ inputs.forEach(input => {
         if (!Number.isNaN(parseFloat(clicked)) || clicked === '.') {
             getInput(clicked);
             updateLog(clicked);
+            buttonSFX.play();
+            if (power && inputScreen.textContent.length < maxInputLength) {
+                digitSFX.play();
+            };
         } else {
             switch (clicked) {
                 case 'C':
@@ -217,6 +224,7 @@ inputs.forEach(input => {
                     break;
             };
             updateLog(clicked);
+            buttonSFX.play();
         }; 
         console.log('currNum: ' + currNum, 'stored: ' + stored);  
     });
