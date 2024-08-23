@@ -59,7 +59,7 @@ for (let i = 1; i <= 5; i++) {
 
 const inputScreen = document.querySelector('.screen'); 
 const inputs = document.querySelectorAll('.input');
-let result = 0;
+let stored = 0;
 let currNum = 0;
 const maxInputLength = 9;
 
@@ -70,17 +70,18 @@ const clearInputs = () => {
 
 const clearAll = () => {
     clearInputs();
-    result = 0;
+    stored = 0;
 };
 
 const delInputs = () => {
-    if (currNum == 0 || currNum.length === 1) {
+    const inputLength = inputScreen.textContent.length;
+    if (inputLength == 0 || inputLength === 1) {
         currNum = 0;
         inputScreen.textContent = currNum;
         return;
     };
-    currNum = currNum.slice(0, currNum.length - 1);
-    inputScreen.textContent = currNum;
+    inputScreen.textContent = inputScreen.textContent.slice(0, inputLength - 1);
+    currNum = inputScreen.textContent;
 };
 
 const getInput = (input) => {
@@ -93,6 +94,31 @@ const getInput = (input) => {
     currNum += input;
     inputScreen.textContent = currNum;
     console.log(currNum);
+};
+
+let currOp = '';
+
+const add = () => {
+    stored += parseFloat(currNum);
+    currNum = 0;
+    if (currOp !== '') {
+        inputScreen.textContent = stored;
+    };
+    currOp = 'add';
+};
+
+const equals = () => {
+    switch (currOp) {
+        case 'add':
+            stored += parseFloat(currNum);
+            break;
+        default:
+            return;
+    };
+    currOp = '';
+    inputScreen.textContent = stored;
+    currNum = stored;
+    stored = 0;
 };
 
 inputs.forEach(input => {
@@ -110,7 +136,11 @@ inputs.forEach(input => {
                     delInputs();
                     break;
                 case '＝':
+                    equals();
+                    break;
                 case '＋':
+                    add();
+                    break;
                 case '－':
                 case '×':
                 case '÷':
