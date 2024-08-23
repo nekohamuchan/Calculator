@@ -60,11 +60,11 @@ for (let i = 1; i <= 5; i++) {
 const inputScreen = document.querySelector('.screen'); 
 const inputs = document.querySelectorAll('.input');
 let result = 0;
-let currNum = '';
+let currNum = 0;
 
 const clearInputs = () => {
-    currNum = '';
-    inputScreen.textContent = 0;
+    currNum = 0;
+    inputScreen.textContent = currNum;
 };
 
 const clearAll = () => {
@@ -73,6 +73,11 @@ const clearAll = () => {
 };
 
 const delInputs = () => {
+    if (currNum == 0 || currNum.length === 1) {
+        currNum = 0;
+        inputScreen.textContent = currNum;
+        return;
+    };
     currNum = currNum.slice(0, currNum.length - 1);
     inputScreen.textContent = currNum;
 };
@@ -80,15 +85,16 @@ const delInputs = () => {
 inputs.forEach(input => {
     input.addEventListener('click', e => {
         const typed = e.target.textContent;
-        console.log(typed, parseFloat(typed));
 
         if (!Number.isNaN(parseFloat(typed)) || typed === '.') {
             if (currNum === '' && typed === '.') {
                 return;
             };
+            if (currNum === 0) {
+                currNum = '';
+            };
             currNum += typed;
             inputScreen.textContent = currNum;
-            console.log(currNum);
         } else {
             switch (typed) {
                 case 'C':
@@ -101,6 +107,8 @@ inputs.forEach(input => {
                     break;
             };
         };
+
+        console.log(currNum);
     });
 });
 
