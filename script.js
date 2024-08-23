@@ -174,6 +174,7 @@ inputs.forEach(input => {
                     break;
                 case '⏻':
                     if (!power) {
+                        clearAll();
                         inputScreen.classList.add('power-on');
                         inputScreen.classList.remove('power-off');
                         power = true;
@@ -181,6 +182,7 @@ inputs.forEach(input => {
                         inputScreen.classList.add('power-off');
                         inputScreen.classList.remove('power-on');
                         power = false;
+                        setTimeout(() => clearAll(), 1000);
                     }
                     break;
             };
