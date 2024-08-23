@@ -112,7 +112,7 @@ let currOp = '';
 const add = () => {
     stored += parseFloat(currNum);
     currNum = 0;
-    if (currOp !== '') {
+    if (currOp === 'add') {
         inputScreen.textContent = stored;
     };
     currOp = 'add';
@@ -147,32 +147,16 @@ const equals = () => {
 };
 
 const log = document.querySelector('.log');
-let inputLog = [''];
-let currIndex = 0;
 
 const makeLog = () => {
     const li = document.createElement('li');
+    const span = document.createElement('span');
+    li.append(span);
     log.append(li);
 };
 
-const updateLog = (input) => {
-    if (!power) {
-        return;
-    };
-
-    if (log.innerHTML === '') {
-        makeLog();
-    };
-
-    switch (input) {
-        case '⏻':
-            log.innerHTML = '';
-            return;
-        default:
-            break
-    };
+const updateLog = () => {
     
-    log.lastChild.textContent += input;
 };
 
 inputs.forEach(input => {
@@ -180,13 +164,13 @@ inputs.forEach(input => {
         const clicked = e.target.textContent;
 
         if (!Number.isNaN(parseFloat(clicked)) || clicked === '.') {
-            getInput(clicked);
-            updateLog(clicked);
             buttonSFX.play();
+            getInput(clicked);
             if (power && inputScreen.textContent.length < maxInputLength) {
                 digitSFX.play();
             };
         } else {
+            buttonSFX.play();
             switch (clicked) {
                 case 'C':
                     clearAll();
@@ -223,8 +207,6 @@ inputs.forEach(input => {
                     }
                     break;
             };
-            updateLog(clicked);
-            buttonSFX.play();
         }; 
         console.log('currNum: ' + currNum, 'stored: ' + stored);  
     });
@@ -249,12 +231,22 @@ window.addEventListener('keydown', e => {
                 bindInput('Del');
                 break;
             case '=':
+                bindInput('＝');
+                break;
             case '+':
+                bindInput('＋');
+                break;
             case '-':
+                bindInput('－');
+                break;
             case 'x':
+                bindInput('×');
+                break;
             case 'X':
+                bindInput('×');
+                break;
             case '/':
-
+                bindInput('÷');
                 break; 
         };
     };

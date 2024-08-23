@@ -140,7 +140,7 @@ body {
     top: 0;
     width: calc(100% * 1/2 - 190px);
     height: 100%;
-    padding: 20px 10px;
+    padding: 20px 5px;
     border: 1px solid white;
     color: white;
     display: flex;
@@ -151,6 +151,6 @@ body {
     font-weight: lighter;
 }
 
-li {
-    
+li > span {
+    margin-left: -20px;
 }
