@@ -59,25 +59,34 @@ for (let i = 1; i <= 5; i++) {
 
 const inputScreen = document.querySelector('.screen'); 
 const inputs = document.querySelectorAll('.input');
-let stored = [''];
-let currNum = 0;
+let result = 0;
+let currNum = '';
 
+const clearInputs = () => {
+    currNum = '';
+    inputScreen.textContent = 0;
+};
 
+const clearAll = () => {
+    clearInputs();
+    result = 0;
+};
 
 inputs.forEach(input => {
     input.addEventListener('click', e => {
         const typed = e.target.textContent;
         console.log(typed, parseFloat(typed));
+
         if (!Number.isNaN(parseFloat(typed))) {
-            stored[currNum] += typed;
-            inputScreen.textContent = stored[currNum];
-            console.log(stored);
+            currNum += typed;
+            inputScreen.textContent = currNum;
+            console.log(currNum);
         } else {
+            clearInputs();
             switch (typed) {
                 case 'C':
-                    stored = [''];
-                    currNum = 0;
-                    inputScreen.textContent = 0;
+                    clearAll();
+                    break;
             };
         };
     });
