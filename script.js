@@ -9,7 +9,7 @@ for (let i = 1; i <= 14; i++) {
     numInput.textContent = i;
     switch (i) {
         case 1:
-            numInput.textContent = '☁︎';
+            numInput.textContent = '⏻';
             break;
         case 2:
             numInput.textContent = 'C';
@@ -57,11 +57,12 @@ for (let i = 1; i <= 5; i++) {
     operators.append(opInput);
 };
 
-const inputScreen = document.querySelector('.screen'); 
+const inputScreen = document.querySelector('.input-area'); 
 const inputs = document.querySelectorAll('.input');
 let stored = 0;
 let currNum = 0;
 const maxInputLength = 9;
+let power = false;
 
 const checkMaxLength = () => {
     if (inputScreen.textContent.length > maxInputLength) {
@@ -101,7 +102,6 @@ const getInput = (input) => {
     };
     currNum += input;
     inputScreen.textContent = currNum;
-    console.log(currNum);
 };
 
 let currOp = '';
@@ -117,15 +117,15 @@ const add = () => {
 };
 
 const subtract = () => {
-
+    checkMaxLength();
 };
 
 const multiply = () => {
-
+    checkMaxLength();
 };
 
 const divide = () => {
-
+    checkMaxLength();
 };
 
 const equals = () => {
@@ -172,8 +172,20 @@ inputs.forEach(input => {
                 case '÷':
                     divide();
                     break;
+                case '⏻':
+                    if (!power) {
+                        inputScreen.classList.add('power-on');
+                        inputScreen.classList.remove('power-off');
+                        power = true;
+                    } else {
+                        inputScreen.classList.add('power-off');
+                        inputScreen.classList.remove('power-on');
+                        power = false;
+                    }
+                    break;
             };
-        };     
+        }; 
+        console.log('currNum: ' + currNum, 'stored: ' + stored);    
     });
 });
 
