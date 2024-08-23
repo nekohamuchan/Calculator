@@ -21,7 +21,7 @@ for (let i = 1; i <= 14; i++) {
             numInput.textContent = 0;
             break;
         case 14:
-            numInput.textContent = '‧';
+            numInput.textContent = '.';
             break;
     };
 
@@ -72,20 +72,32 @@ const clearAll = () => {
     result = 0;
 };
 
+const delInputs = () => {
+    currNum = currNum.slice(0, currNum.length - 1);
+    inputScreen.textContent = currNum;
+};
+
 inputs.forEach(input => {
     input.addEventListener('click', e => {
         const typed = e.target.textContent;
         console.log(typed, parseFloat(typed));
 
-        if (!Number.isNaN(parseFloat(typed))) {
+        if (!Number.isNaN(parseFloat(typed)) || typed === '.') {
+            if (currNum === '' && typed === '.') {
+                return;
+            };
             currNum += typed;
             inputScreen.textContent = currNum;
             console.log(currNum);
         } else {
-            clearInputs();
             switch (typed) {
                 case 'C':
                     clearAll();
+                    break;
+                case 'Del':
+                    delInputs();
+                    break;
+                case '＝':
                     break;
             };
         };
