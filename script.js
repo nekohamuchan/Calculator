@@ -57,5 +57,29 @@ for (let i = 1; i <= 5; i++) {
     operators.append(opInput);
 };
 
+const inputScreen = document.querySelector('.screen'); 
 const inputs = document.querySelectorAll('.input');
+let stored = [''];
+let currNum = 0;
+
+
+
+inputs.forEach(input => {
+    input.addEventListener('click', e => {
+        const typed = e.target.textContent;
+        console.log(typed, parseFloat(typed));
+        if (!Number.isNaN(parseFloat(typed))) {
+            stored[currNum] += typed;
+            inputScreen.textContent = stored[currNum];
+            console.log(stored);
+        } else {
+            switch (typed) {
+                case 'C':
+                    stored = [''];
+                    currNum = 0;
+                    inputScreen.textContent = 0;
+            };
+        };
+    });
+});
 
