@@ -60,98 +60,57 @@ for (let i = 1; i <= 5; i++) {
 const buttonSFX = new Audio('./sounds/switch-light.mp3');
 const digitSFX = new Audio('./sounds/buttons_calculator.mp3');
 
-const inputScreen = document.querySelector('.input-area'); 
+const inputDisplay = document.querySelector('.input-area'); 
 const inputs = document.querySelectorAll('.input');
-let stored = 0;
-let currNum = 0;
 const maxInputLength = 9;
 let power = false;
+let firstNum = 0;
+let secondNum = 0;
+let op = '';
 
-const checkMaxLength = () => {
-    if (inputScreen.textContent.length > maxInputLength) {
-        inputScreen.textContent = 'ERROR';
-        currNum = 0;
-        stored = 0;
+const checkError = () => {
+    if (inputDisplay.textContent.length > maxInputLength) {
+        clearAll();
+        inputDisplay.textContent = 'ERROR';
     };
-};
-
-const clearInputs = () => {
-    currNum = 0;
-    inputScreen.textContent = currNum;
 };
 
 const clearAll = () => {
-    clearInputs();
-    stored = 0;
+    inputDisplay.textContent = 0;
+    firstNum = 0;
+    secondNum = 0;
+    op = '';
 };
 
 const delInputs = () => {
-    const inputLength = inputScreen.textContent.length;
-    if (inputLength === 0 || inputLength === 1) {
-        currNum = 0;
-        inputScreen.textContent = currNum;
-        return;
-    };
-    inputScreen.textContent = inputScreen.textContent.slice(0, inputLength - 1);
-    currNum = inputScreen.textContent;
+
 };
 
 const getInput = (input) => {
-    if (currNum === 0 && input !== '.') {
-        currNum = '';
-    } else if ((currNum[currNum.length - 1] === '.' && input === '.') ||
-                currNum.length >= maxInputLength) {
+    if (!power
+        || (inputDisplay.textContent.includes('.') && input === '.')
+        || inputDisplay.textContent.length >= maxInputLength) {
         return;
+    } else if (inputDisplay.textContent == 0 || inputDisplay.textContent == 'ERROR') {
+        inputDisplay.textContent = '';
     };
-    currNum += input;
-    inputScreen.textContent = currNum;
+    inputDisplay.textContent += input;
+    digitSFX.play();
 };
 
-let currOp = '';
+const add = (a, b) => a + b;
+const subtract = (a, b) => a - b;
+const multiply = (a, b) => a * b;
+const divide = (a, b) => a / b;
 
-const add = () => {
-    stored += parseFloat(currNum);
-    currNum = 0;
-    if (currOp === 'add') {
-        inputScreen.textContent = stored;
-    };
-    currOp = 'add';
-    checkMaxLength();
-};
+const operate = (operator, firstNum, secondNum) => {
 
-const subtract = () => {
-    checkMaxLength();
-};
-
-const multiply = () => {
-    checkMaxLength();
-};
-
-const divide = () => {
-    checkMaxLength();
-};
-
-const equals = () => {
-    switch (currOp) {
-        case 'add':
-            stored += parseFloat(currNum);
-            break;
-        default:
-            return;
-    };
-    currOp = '';
-    inputScreen.textContent = stored;
-    currNum = stored;
-    stored = 0;
     checkMaxLength();
 };
 
 const log = document.querySelector('.log');
-
 const makeLog = () => {
     const li = document.createElement('li');
-    const span = document.createElement('span');
-    li.append(span);
     log.append(li);
 };
 
@@ -162,15 +121,11 @@ const updateLog = () => {
 inputs.forEach(input => {
     input.addEventListener('click', e => {
         const clicked = e.target.textContent;
+        buttonSFX.play();
 
         if (!Number.isNaN(parseFloat(clicked)) || clicked === '.') {
-            buttonSFX.play();
             getInput(clicked);
-            if (power && inputScreen.textContent.length < maxInputLength) {
-                digitSFX.play();
-            };
         } else {
-            buttonSFX.play();
             switch (clicked) {
                 case 'C':
                     clearAll();
@@ -179,36 +134,29 @@ inputs.forEach(input => {
                     delInputs();
                     break;
                 case '＝':
-                    equals();
-                    break;
                 case '＋':
-                    add();
-                    break;
                 case '－':
-                    subtract();
-                    break;
                 case '×':
-                    multiply();
-                    break;
                 case '÷':
-                    divide();
+                    op = clicked;
+                    operate(op, firstNum, secondNum);
                     break;
                 case '⏻':
                     if (!power) {
                         clearAll();
-                        inputScreen.classList.add('power-on');
-                        inputScreen.classList.remove('power-off');
+                        inputDisplay.classList.add('power-on');
+                        inputDisplay.classList.remove('power-off');
                         power = true;
                     } else {
-                        inputScreen.classList.add('power-off');
-                        inputScreen.classList.remove('power-on');
+                        inputDisplay.classList.add('power-off');
+                        inputDisplay.classList.remove('power-on');
                         power = false;
                         setTimeout(() => clearAll(), 1000);
                     }
                     break;
             };
         }; 
-        console.log('currNum: ' + currNum, 'stored: ' + stored);  
+        console.log();  
     });
 });
 
