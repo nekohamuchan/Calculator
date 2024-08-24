@@ -1,6 +1,5 @@
 const numbers = document.querySelector('.numbers');
 const operators = document.querySelector('.operators');
-const extra = document.querySelector('.extra');
 
 //create number inputs
 for (let i = 1; i <= 14; i++) {
@@ -21,7 +20,7 @@ for (let i = 1; i <= 14; i++) {
             numInput.textContent = 0;
             break;
         case 14:
-            numInput.textContent = '.';
+            numInput.textContent = '‧';
             break;
     };
 
@@ -64,12 +63,13 @@ const inputDisplay = document.querySelector('.input-area');
 const inputs = document.querySelectorAll('.input');
 const maxInputLength = 9;
 let power = false;
-let firstNum = null;
-let secondNum = null;
-let op = null;
+let num1 = null;
+let num2 = null;
+let operator1 = null;
+let operator2 = null;
 let result = null;
 
-const checkError = () => {
+const checkLength = () => {
     if (inputDisplay.textContent.length > maxInputLength) {
         clearAll();
         inputDisplay.textContent = 'ERROR';
@@ -77,28 +77,47 @@ const checkError = () => {
 };
 
 const clearAll = () => {
-    inputDisplay.textContent = 0;
-    firstNum = null;
-    secondNum = null;
+    inputDisplay.textContent = '0';
+    num1 = null;
+    num2 = null;
     op = null;
     result = null;
 };
 
-const delInputs = () => {
+const delDisplay = () => {
 
 };
 
-const updateDisplay = (input) => {
-    if ((inputDisplay.textContent.includes('.') && input === '.')
-        || inputDisplay.textContent.length >= maxInputLength) {
+const addDecimal = () => {
+    if (inputDisplay.textContent.includes('.')) {
         return;
-    } else if (inputDisplay.textContent === 0
+    };
+    inputDisplay.textContent += '.';
+    setTimeout(() => {
+        digitSFX.play();
+        setTimeout(() => {
+            digitSFX.pause();
+            digitSFX.currentTime = 0;
+        }, 80);
+    }, 60);
+};
+
+const updateDisplay = (input) => {
+    if (inputDisplay.textContent.length >= maxInputLength) {
+        return;
+    } else if (inputDisplay.textContent === '0'
         || inputDisplay.textContent == 'ERROR' 
-        || (firstNum === parseFloat(inputDisplay.textContent))) {
+        || (num1 === parseFloat(inputDisplay.textContent))) {
         inputDisplay.textContent = '';
     };
     inputDisplay.textContent += input;
-    digitSFX.play();
+    setTimeout(() => {
+        digitSFX.play();
+        setTimeout(() => {
+            digitSFX.pause();
+            digitSFX.currentTime = 0;
+        }, 80);
+    }, 60);
 };
 
 const operate = (operator, a, b) => {
@@ -111,11 +130,22 @@ const operate = (operator, a, b) => {
             return a * b;
         case '÷':
             if (b === 0) {
+                clearAll();
                 return 'ERROR';
             } else {
                 return a / b;
             };
     };
+};
+
+const calculate = () => {
+    //steps of the calculate
+    //1. get num1
+    //2. get operator1
+    //3. get num2
+    //4. get operator2 => show result(become num1)
+    //5. back to step 2(repeat)
+
 };
 
 const log = document.querySelector('.log');
@@ -150,7 +180,7 @@ inputs.forEach(input => {
             return;
         };
 
-        if (!Number.isNaN(parseFloat(clicked)) || clicked === '.') {
+        if (!Number.isNaN(parseFloat(clicked))) {
             updateDisplay(clicked);
         } else {
             switch (clicked) {
@@ -158,20 +188,21 @@ inputs.forEach(input => {
                     clearAll();
                     break;
                 case 'Del':
-                    delInputs();
+                    delDisplay();
                     break;
                 case '＝':
                 case '＋':
                 case '－':
                 case '×':
                 case '÷':
-                    op = clicked;
-                    e.target.classList.add('pressed');
-                    operate(op, firstNum, secondNum);
+                    calculate();
+                    break;
+                case '‧':
+                    addDecimal();
                     break;
             };
         };
-        console.log ('first num: ' + firstNum, 'second num: ' + secondNum); 
+        console.log ('first num: ' + num1, 'second num: ' + num2); 
     });
 });
 
@@ -181,13 +212,11 @@ const bindInput = (input) => {
 };
 
 window.addEventListener('keydown', e => {
-    console.log(e.key);
-    if (!Number.isNaN(parseFloat(e.key)) || e.key === '.') {
+    if (!Number.isNaN(parseFloat(e.key))) {
         bindInput(e.key);
     } else {
         switch(e.key) {
             case 'c':
-            case 'C':
                 bindInput('C');
                 break;
             case 'Backspace':
@@ -205,12 +234,12 @@ window.addEventListener('keydown', e => {
             case 'x':
                 bindInput('×');
                 break;
-            case 'X':
-                bindInput('×');
-                break;
             case '/':
                 bindInput('÷');
                 break; 
+            case '.':
+                bindInput('‧');
+                break;
         };
     };
 });

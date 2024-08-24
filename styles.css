@@ -33,7 +33,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.3);
 }
 
 .calculator > * {
@@ -123,6 +123,7 @@ body {
     font-size: 25px;
     font-family: "Inter", sans-serif;
     font-weight: lighter;
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
 }
 
 .input:hover {
