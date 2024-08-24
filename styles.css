@@ -134,6 +134,10 @@ body {
     scale: 0.95;
 }
 
+.input.pressed {
+    background-color: rgb(167, 206, 206);
+}
+
 .log {
     position: absolute;
     z-index: -1;

@@ -64,9 +64,10 @@ const inputDisplay = document.querySelector('.input-area');
 const inputs = document.querySelectorAll('.input');
 const maxInputLength = 9;
 let power = false;
-let firstNum = 0;
-let secondNum = 0;
-let op = '';
+let firstNum = null;
+let secondNum = null;
+let op = null;
+let result = null;
 
 const checkError = () => {
     if (inputDisplay.textContent.length > maxInputLength) {
@@ -77,35 +78,44 @@ const checkError = () => {
 
 const clearAll = () => {
     inputDisplay.textContent = 0;
-    firstNum = 0;
-    secondNum = 0;
-    op = '';
+    firstNum = null;
+    secondNum = null;
+    op = null;
+    result = null;
 };
 
 const delInputs = () => {
 
 };
 
-const getInput = (input) => {
-    if (!power
-        || (inputDisplay.textContent.includes('.') && input === '.')
+const updateDisplay = (input) => {
+    if ((inputDisplay.textContent.includes('.') && input === '.')
         || inputDisplay.textContent.length >= maxInputLength) {
         return;
-    } else if (inputDisplay.textContent == 0 || inputDisplay.textContent == 'ERROR') {
+    } else if (inputDisplay.textContent === 0
+        || inputDisplay.textContent == 'ERROR' 
+        || (firstNum === parseFloat(inputDisplay.textContent))) {
         inputDisplay.textContent = '';
     };
     inputDisplay.textContent += input;
     digitSFX.play();
 };
 
-const add = (a, b) => a + b;
-const subtract = (a, b) => a - b;
-const multiply = (a, b) => a * b;
-const divide = (a, b) => a / b;
-
-const operate = (operator, firstNum, secondNum) => {
-
-    checkMaxLength();
+const operate = (operator, a, b) => {
+    switch (operator) {
+        case '＋':
+            return a + b; 
+        case '－':
+            return a - b;
+        case '×':
+            return a * b;
+        case '÷':
+            if (b === 0) {
+                return 'ERROR';
+            } else {
+                return a / b;
+            };
+    };
 };
 
 const log = document.querySelector('.log');
@@ -120,11 +130,28 @@ const updateLog = () => {
 
 inputs.forEach(input => {
     input.addEventListener('click', e => {
+        inputs.forEach(input => input.classList.remove('pressed'));
         const clicked = e.target.textContent;
         buttonSFX.play();
 
+        if (clicked === '⏻') {
+            if (!power) {
+                clearAll();
+                inputDisplay.classList.add('power-on');
+                inputDisplay.classList.remove('power-off');
+                power = true;
+            } else {
+                inputDisplay.classList.add('power-off');
+                inputDisplay.classList.remove('power-on');
+                power = false;
+                setTimeout(() => clearAll(), 1000);
+            };
+        } else if (!power) {
+            return;
+        };
+
         if (!Number.isNaN(parseFloat(clicked)) || clicked === '.') {
-            getInput(clicked);
+            updateDisplay(clicked);
         } else {
             switch (clicked) {
                 case 'C':
@@ -139,24 +166,12 @@ inputs.forEach(input => {
                 case '×':
                 case '÷':
                     op = clicked;
+                    e.target.classList.add('pressed');
                     operate(op, firstNum, secondNum);
                     break;
-                case '⏻':
-                    if (!power) {
-                        clearAll();
-                        inputDisplay.classList.add('power-on');
-                        inputDisplay.classList.remove('power-off');
-                        power = true;
-                    } else {
-                        inputDisplay.classList.add('power-off');
-                        inputDisplay.classList.remove('power-on');
-                        power = false;
-                        setTimeout(() => clearAll(), 1000);
-                    }
-                    break;
             };
-        }; 
-        console.log();  
+        };
+        console.log ('first num: ' + firstNum, 'second num: ' + secondNum); 
     });
 });
 
