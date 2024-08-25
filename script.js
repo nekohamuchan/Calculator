@@ -72,10 +72,9 @@ let result = null;
 const checkLength = () => {
     if (result.length >= maxInputLength) {
         if (result % 1 != 0) {
-
+            inputDisplay.textContent = result.toFixed(2);
+            return;
         };
-    };
-    if (inputDisplay.textContent.length > maxInputLength) {
         clearAll();
         inputDisplay.textContent = 'ERROR';
     };
@@ -117,13 +116,14 @@ const addDecimal = () => {
 };
 
 const updateDisplay = (input) => {
-    if (inputDisplay.textContent.length >= maxInputLength) {
-        return;
-    } else if (inputDisplay.textContent === '0'
-        || inputDisplay.textContent == 'ERROR' 
+    const inputs = inputDisplay.textContent;
+    if (inputs === '0'
+        || inputs == 'ERROR' 
         || nextNum) {
         inputDisplay.textContent = '';
         nextNum = false;
+    } else if (inputs.length >= maxInputLength) {
+        return;
     };
     inputDisplay.textContent += input;
     setTimeout(() => {
@@ -165,7 +165,7 @@ const calculate = (input) => {
     //   result become num1, operator2 become operator1, repeat step 2
     switch (calStep) {
         case 1:
-            num1 = parseFloat(inputDisplay.textContent);
+            num1 = Number(inputDisplay.textContent);
             operator1 = input;
             if (operator1 === '＝') {
                 return;
@@ -176,12 +176,12 @@ const calculate = (input) => {
         case 2:
             operator2 = input;
             if (operator2 === '＝') {
-                num2 = parseFloat(inputDisplay.textContent);
+                num2 = Number(inputDisplay.textContent);
                 result = operate(operator1, num1, num2);
                 inputDisplay.textContent = result;
                 calStep = 1;
             } else {
-                num2 = parseFloat(inputDisplay.textContent);
+                num2 = Number(inputDisplay.textContent);
                 result = operate(operator1, num1, num2);
                 inputDisplay.textContent = result;
                 num1 = result;
@@ -190,6 +190,7 @@ const calculate = (input) => {
             nextNum = true;
             break;
     };
+    
 };
 
 const log = document.querySelector('.log');
@@ -224,7 +225,7 @@ inputs.forEach(input => {
             return;
         };
 
-        if (!Number.isNaN(parseFloat(clicked))) {
+        if (!Number.isNaN(Number(clicked))) {
             updateDisplay(clicked);
         } else {
             switch (clicked) {
@@ -255,7 +256,7 @@ const bindInput = (input) => {
 };
 
 window.addEventListener('keydown', e => {
-    if (!Number.isNaN(parseFloat(e.key))) {
+    if (!Number.isNaN(Number(e.key))) {
         bindInput(e.key);
     } else {
         switch(e.key) {
