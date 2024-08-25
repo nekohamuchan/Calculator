@@ -70,6 +70,11 @@ let operator2 = null;
 let result = null;
 
 const checkLength = () => {
+    if (result.length >= maxInputLength) {
+        if (result % 1 != 0) {
+
+        };
+    };
     if (inputDisplay.textContent.length > maxInputLength) {
         clearAll();
         inputDisplay.textContent = 'ERROR';
@@ -80,12 +85,21 @@ const clearAll = () => {
     inputDisplay.textContent = '0';
     num1 = null;
     num2 = null;
-    op = null;
+    operator1 = null;
+    operator2 = null;
     result = null;
+    calStep = 1;
+    nextNum = false;
 };
 
 const delDisplay = () => {
-
+    const inputs = inputDisplay.textContent;
+    if (inputs.length <= 1) {
+        inputDisplay.textContent = '0';
+        return;
+    };
+    inputDisplay.textContent = inputs.slice(0, inputs.length - 1);
+    nextNum = false;
 };
 
 const addDecimal = () => {
@@ -107,8 +121,9 @@ const updateDisplay = (input) => {
         return;
     } else if (inputDisplay.textContent === '0'
         || inputDisplay.textContent == 'ERROR' 
-        || (num1 === parseFloat(inputDisplay.textContent))) {
+        || nextNum) {
         inputDisplay.textContent = '';
+        nextNum = false;
     };
     inputDisplay.textContent += input;
     setTimeout(() => {
@@ -138,14 +153,43 @@ const operate = (operator, a, b) => {
     };
 };
 
-const calculate = () => {
-    //steps of the calculate
-    //1. get num1
-    //2. get operator1
-    //3. get num2
-    //4. get operator2 => show result(become num1)
-    //5. back to step 2(repeat)
-
+let calStep = 1;
+let nextNum = false;
+const calculate = (input) => {
+    //first prevent user click operator twice at same time then calculate
+    //steps of calculate
+    //1. get num1 and operator1
+    //2. get num2 and operator2
+    //   if operator2 === equals => show result & back to step 1
+    //   if operator2 !== equals => show result
+    //   result become num1, operator2 become operator1, repeat step 2
+    switch (calStep) {
+        case 1:
+            num1 = parseFloat(inputDisplay.textContent);
+            operator1 = input;
+            if (operator1 === '＝') {
+                return;
+            };
+            nextNum = true;
+            calStep = 2;
+            break;
+        case 2:
+            operator2 = input;
+            if (operator2 === '＝') {
+                num2 = parseFloat(inputDisplay.textContent);
+                result = operate(operator1, num1, num2);
+                inputDisplay.textContent = result;
+                calStep = 1;
+            } else {
+                num2 = parseFloat(inputDisplay.textContent);
+                result = operate(operator1, num1, num2);
+                inputDisplay.textContent = result;
+                num1 = result;
+                operator1 = operator2;
+            };
+            nextNum = true;
+            break;
+    };
 };
 
 const log = document.querySelector('.log');
@@ -195,14 +239,13 @@ inputs.forEach(input => {
                 case '－':
                 case '×':
                 case '÷':
-                    calculate();
+                    calculate(clicked);
                     break;
                 case '‧':
                     addDecimal();
                     break;
             };
         };
-        console.log ('first num: ' + num1, 'second num: ' + num2); 
     });
 });
 

@@ -40,7 +40,7 @@ body {
     width: 85%;
 }
 
-.screen {
+.input-display {
     margin-bottom: 25px;
     height: 15%;
     background-color: rgb(46, 72, 73);
@@ -96,10 +96,11 @@ body {
     background-color: rgb(181, 181, 181);
     border: 3px outset rgb(121, 121, 121);
     color: white;
+    font-weight: 200;
 }
 
 .numbers > .input:nth-last-child(2) {
-    width: calc(var(--button-length) * 2.25);
+    flex-basis: 65%;
 }
 
 .operators {
