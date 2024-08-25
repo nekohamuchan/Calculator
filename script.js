@@ -69,17 +69,6 @@ let operator1 = null;
 let operator2 = null;
 let result = null;
 
-const checkLength = () => {
-    if (result.length >= maxInputLength) {
-        if (result % 1 != 0) {
-            inputDisplay.textContent = result.toFixed(2);
-            return;
-        };
-        clearAll();
-        inputDisplay.textContent = 'ERROR';
-    };
-};
-
 const clearAll = () => {
     inputDisplay.textContent = '0';
     num1 = null;
@@ -115,14 +104,18 @@ const addDecimal = () => {
     }, 60);
 };
 
-const updateDisplay = (input) => {
+const newDisplay = () => {
     const inputs = inputDisplay.textContent;
     if (inputs === '0'
         || inputs == 'ERROR' 
         || nextNum) {
         inputDisplay.textContent = '';
         nextNum = false;
-    } else if (inputs.length >= maxInputLength) {
+    };
+};
+
+const updateDisplay = (input) => {
+    if (inputDisplay.textContent.length >= maxInputLength) {
         return;
     };
     inputDisplay.textContent += input;
@@ -188,9 +181,23 @@ const calculate = (input) => {
                 operator1 = operator2;
             };
             nextNum = true;
+            checkLength();
             break;
     };
-    
+};
+
+const checkLength = () => {
+    const resultLength = result.toString().length;
+    if (resultLength >= maxInputLength) {
+        if (result % 1 != 0) {
+            const intLength = parseInt(result).toString().length;
+            result = Number(result.toFixed(maxInputLength - intLength));
+            inputDisplay.textContent = result;
+            return;
+        };
+        clearAll();
+        inputDisplay.textContent = 'ERROR';
+    };
 };
 
 const log = document.querySelector('.log');
@@ -225,6 +232,7 @@ inputs.forEach(input => {
             return;
         };
 
+        newDisplay();
         if (!Number.isNaN(Number(clicked))) {
             updateDisplay(clicked);
         } else {
