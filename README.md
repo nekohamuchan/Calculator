@@ -1,2 +1,2 @@
 # Calculator
-A project for TOP curriculum.
+A simple calculator project with log function for TOP curriculum.
