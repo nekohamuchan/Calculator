@@ -249,6 +249,17 @@ const clearPressedBtn = () => {
     opBtnPressed = false;
 };
 
+const cancelOp = (input) => {
+    const li = log.lastChild.querySelector('span');
+    if (operator2 === null) {
+        operator1 = input;
+    } else {
+        operator2 = input;
+    };
+    li.textContent = li.textContent.slice(0, li.textContent.length - 1);
+    li.textContent += input;
+};
+
 inputs.forEach(input => {
     input.addEventListener('click', e => {
         const clicked = e.target.textContent;
@@ -290,6 +301,7 @@ inputs.forEach(input => {
                     if (opBtnPressed) {
                         clearPressedBtn();
                         pressBtn(e.target);
+                        cancelOp(clicked);
                         return;
                     };
                     if (clicked !== '＝') {
