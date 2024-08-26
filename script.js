@@ -222,9 +222,10 @@ const updateLog = () => {
     if (calStep === 1) {
         li.textContent = `${num1} ${operator1}`;
     } else if (calStep === 2) {
-        li.textContent += ` ${num2} = ${result}`;
-        if (operator2 !== '＝') {
-            li.textContent += ` ${operator2}`;
+        if (operator2 === '＝') {
+            li.textContent += ` ${num2} = ${result}`;
+        } else {
+            li.textContent += ` ${num2} \r\n = ${result} ${operator2}`;
         };
     };
 };
