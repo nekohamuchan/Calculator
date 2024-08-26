@@ -104,13 +104,16 @@ const addDecimal = () => {
     }, 60);
 };
 
-const newDisplay = () => {
-    const inputs = inputDisplay.textContent;
-    if (inputs === '0'
-        || inputs == 'ERROR' 
+const newDisplay = (input) => {
+    if (inputDisplay.textContent === 'ERROR' 
         || nextNum) {
-        inputDisplay.textContent = '';
+        inputDisplay.textContent = '0';
         nextNum = false;
+    };
+    
+    if (inputDisplay.textContent === '0' && !Number.isNaN(Number(input))) {
+        inputDisplay.textContent = '';
+        console.log('test');
     };
 };
 
@@ -160,7 +163,7 @@ const calculate = (input) => {
         case 1:
             num1 = Number(inputDisplay.textContent);
             operator1 = input;
-            if (operator1 === '＝') {
+            if (operator1 === '＝' || Number.isNaN(num1)) {
                 return;
             };
             nextNum = true;
@@ -168,15 +171,16 @@ const calculate = (input) => {
             break;
         case 2:
             operator2 = input;
-            if (operator2 === '＝') {
-                num2 = Number(inputDisplay.textContent);
-                result = operate(operator1, num1, num2);
-                inputDisplay.textContent = result;
+            num2 = Number(inputDisplay.textContent);
+            if (Number.isNaN(num2)) {
+                return;
+            };
+
+            result = operate(operator1, num1, num2);
+            inputDisplay.textContent = result;
+            if (operator2 === '＝') { 
                 calStep = 1;
             } else {
-                num2 = Number(inputDisplay.textContent);
-                result = operate(operator1, num1, num2);
-                inputDisplay.textContent = result;
                 num1 = result;
                 operator1 = operator2;
             };
@@ -184,6 +188,7 @@ const calculate = (input) => {
             checkLength();
             break;
     };
+    console.table(num1, operator1, num2, operator2, result);
 };
 
 const checkLength = () => {
@@ -232,7 +237,7 @@ inputs.forEach(input => {
             return;
         };
 
-        newDisplay();
+        newDisplay(clicked);
         if (!Number.isNaN(Number(clicked))) {
             updateDisplay(clicked);
         } else {
