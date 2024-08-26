@@ -78,6 +78,7 @@ const clearAll = () => {
     result = null;
     calStep = 1;
     nextNum = false;
+    log.innerHTML = '';
 };
 
 const delDisplay = () => {
@@ -113,7 +114,6 @@ const newDisplay = (input) => {
     
     if (inputDisplay.textContent === '0' && !Number.isNaN(Number(input))) {
         inputDisplay.textContent = '';
-        console.log('test');
     };
 };
 
@@ -152,7 +152,6 @@ const operate = (operator, a, b) => {
 let calStep = 1;
 let nextNum = false;
 const calculate = (input) => {
-    //first prevent user click operator twice at same time then calculate
     //steps of calculate
     //1. get num1 and operator1
     //2. get num2 and operator2
@@ -166,6 +165,8 @@ const calculate = (input) => {
             if (operator1 === '＝' || Number.isNaN(num1)) {
                 return;
             };
+            makeLog();
+            updateLog();
             nextNum = true;
             calStep = 2;
             break;
@@ -178,6 +179,7 @@ const calculate = (input) => {
 
             result = operate(operator1, num1, num2);
             inputDisplay.textContent = result;
+            updateLog();
             if (operator2 === '＝') { 
                 calStep = 1;
             } else {
@@ -186,9 +188,10 @@ const calculate = (input) => {
             };
             nextNum = true;
             checkLength();
+            operator2 = null;
+            result = null;
             break;
     };
-    console.table(num1, operator1, num2, operator2, result);
 };
 
 const checkLength = () => {
@@ -208,11 +211,21 @@ const checkLength = () => {
 const log = document.querySelector('.log');
 const makeLog = () => {
     const li = document.createElement('li');
+    const span = document.createElement('span');
+    li.append(span);
     log.append(li);
 };
 
 const updateLog = () => {
-    
+    const li = log.lastChild.querySelector('span');
+    if (calStep === 1) {
+        li.textContent = `${num1} ${operator1}`;
+    } else if (calStep === 2) {
+        li.textContent += ` ${num2} = ${result}`;
+        if (operator2 !== '＝') {
+            li.textContent += ` ${operator2}`;
+        };
+    };
 };
 
 inputs.forEach(input => {
@@ -253,6 +266,9 @@ inputs.forEach(input => {
                 case '－':
                 case '×':
                 case '÷':
+                    if (clicked !== '＝') {
+                        e.target.classList.add('pressed');
+                    };
                     calculate(clicked);
                     break;
                 case '‧':

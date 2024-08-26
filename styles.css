@@ -15,6 +15,7 @@
 
 * {
     box-sizing: border-box;
+    margin: 0;
 }
 
 body {
@@ -137,7 +138,7 @@ body {
 }
 
 .input.pressed {
-    background-color: rgb(167, 206, 206);
+    background-color: rgb(178, 214, 214);
 }
 
 .log {
@@ -146,17 +147,37 @@ body {
     top: 0;
     width: calc(100% * 1/2 - 190px);
     height: 100%;
-    padding: 20px 5px;
+    padding: 20px;
+    padding-bottom: 30px;
     border: 1px solid white;
-    color: white;
     display: flex;
     flex-direction: column;
-    justify-content: end;
-    font-size: 25px;
-    font-family: "Inter", sans-serif;
-    font-weight: lighter;
+    justify-content: flex-end;
+    gap: 15px;
+    overflow: hidden;
 }
 
 li {
-    
+    list-style: none;
+    filter: drop-shadow(4px 4px 0 rgba(0, 0, 0, 0.3));
+}
+
+li > span {
+    display: inline-block;
+    flex-shrink: 0;
+    align-self: flex-start;
+    background-color: white;
+    border-radius: 10px;
+    padding: 5px 15px;
+    font-size: 23px;
+    font-family: "Inter", sans-serif;
+    font-weight: 150;
+}
+
+li:last-child > span::after {
+    content: "";
+    display: block;
+    position: absolute;
+    border: 15px solid transparent;
+    border-top: 25px solid white;
 }
