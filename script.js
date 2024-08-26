@@ -61,6 +61,7 @@ const digitSFX = new Audio('./sounds/buttons_calculator.mp3');
 
 const inputDisplay = document.querySelector('.input-area'); 
 const inputs = document.querySelectorAll('.input');
+const opBtn = document.querySelectorAll('.operators > .input');
 const maxInputLength = 9;
 let power = false;
 let num1 = null;
@@ -237,9 +238,19 @@ const delLog = () => {
     };
 };
 
+let opBtnPressed = false;
+const pressBtn = (btn) => {
+    btn.classList.add('pressed');
+    opBtnPressed = true;
+};
+
+const clearPressedBtn = () => {
+    opBtn.forEach(btn => btn.classList.remove('pressed'));
+    opBtnPressed = false;
+};
+
 inputs.forEach(input => {
     input.addEventListener('click', e => {
-        inputs.forEach(input => input.classList.remove('pressed'));
         const clicked = e.target.textContent;
         buttonSFX.play();
 
@@ -261,6 +272,7 @@ inputs.forEach(input => {
 
         newDisplay(clicked);
         if (!Number.isNaN(Number(clicked))) {
+            clearPressedBtn();
             updateDisplay(clicked);
         } else {
             switch (clicked) {
@@ -275,8 +287,13 @@ inputs.forEach(input => {
                 case '－':
                 case '×':
                 case '÷':
+                    if (opBtnPressed) {
+                        clearPressedBtn();
+                        pressBtn(e.target);
+                        return;
+                    };
                     if (clicked !== '＝') {
-                        e.target.classList.add('pressed');
+                        pressBtn(e.target);
                     };
                     calculate(clicked);
                     break;
