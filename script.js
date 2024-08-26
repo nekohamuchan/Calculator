@@ -166,6 +166,7 @@ const calculate = (input) => {
                 return;
             };
             makeLog();
+            delLog();
             updateLog();
             nextNum = true;
             calStep = 2;
@@ -225,6 +226,14 @@ const updateLog = () => {
         if (operator2 !== '＝') {
             li.textContent += ` ${operator2}`;
         };
+    };
+};
+
+const delLog = () => {
+    const logs = document.querySelectorAll('li');
+    const firstLog = document.querySelector('li');
+    if (logs.length > 6) {
+        firstLog.remove();
     };
 };
 
