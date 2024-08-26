@@ -143,17 +143,15 @@ body {
 
 .log {
     position: absolute;
-    z-index: -1;
     top: 0;
     width: calc(100% * 1/2 - 190px);
     height: 100%;
     padding: 20px;
     padding-bottom: 30px;
-    border: 1px solid white;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    gap: 15px;
+    gap: 20px;
     overflow: hidden;
 }
 
@@ -180,4 +178,10 @@ li:last-child > span::after {
     position: absolute;
     border: 15px solid transparent;
     border-top: 25px solid white;
+}
+
+.delete {
+    animation-name: off;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
 }

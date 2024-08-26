@@ -78,7 +78,6 @@ const clearAll = () => {
     result = null;
     calStep = 1;
     nextNum = false;
-    log.innerHTML = '';
 };
 
 const delDisplay = () => {
@@ -233,7 +232,8 @@ const delLog = () => {
     const logs = document.querySelectorAll('li');
     const firstLog = document.querySelector('li');
     if (logs.length > 6) {
-        firstLog.remove();
+        firstLog.classList.add('delete');
+        setTimeout(() => firstLog.remove(), 2000);
     };
 };
 
