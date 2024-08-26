@@ -300,6 +300,9 @@ inputs.forEach(input => {
                 case '×':
                 case '÷':
                     if (opBtnPressed) {
+                        if (clicked === '＝') {
+                            return;
+                        };
                         clearPressedBtn();
                         pressBtn(e.target);
                         cancelOp(clicked);

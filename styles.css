@@ -157,7 +157,6 @@ body {
 
 li {
     list-style: none;
-    filter: drop-shadow(4px 4px 0 rgba(0, 0, 0, 0.3));
 }
 
 li > span {
@@ -172,14 +171,11 @@ li > span {
     font-weight: 150;
     max-width: 75%;
     white-space: pre;
+    border-left: 8px solid rgb(181, 181, 181);
 }
 
-li:last-child > span::after {
-    content: "";
-    display: block;
-    position: absolute;
-    border: 15px solid transparent;
-    border-top: 25px solid white;
+li:last-child > span {
+    border-left: 8px solid rgb(121, 214, 216);
 }
 
 .delete {
