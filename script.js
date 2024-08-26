@@ -141,7 +141,6 @@ const operate = (operator, a, b) => {
             return a * b;
         case '÷':
             if (b === 0) {
-                clearAll();
                 return 'ERROR';
             } else {
                 return a / b;
@@ -180,7 +179,13 @@ const calculate = (input) => {
 
             result = operate(operator1, num1, num2);
             inputDisplay.textContent = result;
+            checkLength();
             updateLog();
+            if (result === 'ERROR') {
+                clearAll();
+                inputDisplay.textContent = 'ERROR';
+                return;
+            };
             if (operator2 === '＝') { 
                 calStep = 1;
             } else {
@@ -188,7 +193,6 @@ const calculate = (input) => {
                 operator1 = operator2;
             };
             nextNum = true;
-            checkLength();
             operator2 = null;
             result = null;
             break;
@@ -204,8 +208,7 @@ const checkLength = () => {
             inputDisplay.textContent = result;
             return;
         };
-        clearAll();
-        inputDisplay.textContent = 'ERROR';
+        result = 'ERROR';
     };
 };
 

@@ -169,7 +169,6 @@ li > span {
     font-size: 23px;
     font-family: "Inter", sans-serif;
     font-weight: 150;
-    max-width: 75%;
     white-space: pre;
     border-left: 8px solid rgb(181, 181, 181);
 }
