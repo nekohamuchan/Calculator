@@ -143,8 +143,8 @@ body {
 
 .log {
     position: absolute;
+    z-index: 1;
     top: 0;
-    width: calc(100% * 1/2 - 190px);
     height: 100%;
     padding: 20px;
     padding-bottom: 30px;
@@ -152,7 +152,6 @@ body {
     flex-direction: column;
     justify-content: flex-end;
     gap: 20px;
-    overflow: hidden;
 }
 
 li {

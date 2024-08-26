@@ -201,7 +201,7 @@ const calculate = (input) => {
 
 const checkLength = () => {
     const resultLength = result.toString().length;
-    if (resultLength >= maxInputLength) {
+    if (resultLength > maxInputLength) {
         if (result % 1 != 0) {
             const intLength = parseInt(result).toString().length;
             result = Number(result.toFixed(maxInputLength - intLength));
