@@ -228,7 +228,7 @@ const updateLog = () => {
         if (operator2 === '＝') {
             li.textContent += ` ${num2} = ${result}`;
         } else {
-            li.textContent += ` ${num2} \r\n = ${result} ${operator2}`;
+            li.textContent += ` ${num2} \r\n => ${result} ${operator2}`;
         };
     };
 };
