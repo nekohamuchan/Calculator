@@ -79,6 +79,7 @@ const clearAll = () => {
     result = null;
     calStep = 1;
     nextNum = false;
+    clearPressedBtn();
 };
 
 const delDisplay = () => {
@@ -187,14 +188,12 @@ const calculate = (input) => {
                 return;
             };
             if (operator2 === '＝') { 
-                calStep = 1;
+                clearAll();
             } else {
                 num1 = result;
                 operator1 = operator2;
             };
             nextNum = true;
-            operator2 = null;
-            result = null;
             break;
     };
 };
@@ -240,6 +239,12 @@ const delLog = () => {
         firstLog.classList.add('delete');
         setTimeout(() => firstLog.remove(), 2000);
     };
+};
+
+const cancelLog = () => {
+    const li = log.lastChild.querySelector('span');
+    li.style.textDecoration = 'line-through 1px';
+    clearPressedBtn();
 };
 
 let opBtnPressed = false;
@@ -292,6 +297,9 @@ inputs.forEach(input => {
         } else {
             switch (clicked) {
                 case 'C':
+                    if (calStep === 2) {
+                        cancelLog();
+                    };
                     clearAll();
                     break;
                 case 'Del':
@@ -317,6 +325,7 @@ inputs.forEach(input => {
                     calculate(clicked);
                     break;
                 case '‧':
+                    clearPressedBtn();
                     addDecimal();
                     break;
             };
